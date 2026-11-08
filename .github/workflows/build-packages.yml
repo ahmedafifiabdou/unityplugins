@@ -1,0 +1,26 @@
+name: Build Apple Unity Plugins
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build Plugins
+        run: |
+          python3 build.py -p Core GameKit -nc
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Apple-Unity-Packages
+          path: Build/*.tgz
